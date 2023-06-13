@@ -3,9 +3,11 @@ package com.nick.todocliapp.service;
 import com.nick.todocliapp.enums.DifficultyEnum;
 import com.nick.todocliapp.enums.PriorityEnum;
 import com.nick.todocliapp.enums.ProgressEnum;
+import com.nick.todocliapp.enums.PromptColor;
 import com.nick.todocliapp.exception.BadRequestCommandException;
+import com.nick.todocliapp.helper.ShellHelper;
 import com.nick.todocliapp.model.Todo;
-import com.nick.todocliapp.model.helper.TodoFields;
+import com.nick.todocliapp.model.TodoFields;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.shell.component.flow.ComponentFlow;
 import org.springframework.shell.component.flow.ResultMode;
@@ -20,10 +22,12 @@ import java.util.List;
 public class ComponentFlowBuilderService {
     private final ComponentFlow.Builder componentFlowBuilder;
     private final TodoService todoService;
+    private final ShellHelper shellHelper;
 
-    public ComponentFlowBuilderService(ComponentFlow.Builder componentFlowBuilder, TodoService todoService) {
+    public ComponentFlowBuilderService(ComponentFlow.Builder componentFlowBuilder, TodoService todoService, ShellHelper shellHelper) {
         this.componentFlowBuilder = componentFlowBuilder;
         this.todoService = todoService;
+        this.shellHelper = shellHelper;
     }
 
     public List<Todo> findByTagFlow(List<String> tags) {
@@ -44,18 +48,21 @@ public class ComponentFlowBuilderService {
         var result = flow.run().getContext();
         var tagsInput = (List<String>) result.get("tags");
 
+        shellHelper.print("\nTodos found by tags provided:\n", PromptColor.GREEN);
         return todoService.findByTags(tagsInput.get(0));
     }
 
     public Todo findTodoByIdFlow(String id) {
         var idInput = getIdHelper(id, "search");
+
+        shellHelper.print("\nTodos found by id=%s\n", PromptColor.GREEN, idInput);
         return todoService.findById(idInput);
     }
 
-    public Long deleteTodoFlow(String id) {
+    public void deleteTodoFlow(String id) {
         var idInput = getIdHelper(id, "delete");
         todoService.delete(idInput);
-        return idInput;
+        shellHelper.print("\nTodo deleted with id=%s\n", PromptColor.GREEN, idInput);
     }
 
 
@@ -68,6 +75,8 @@ public class ComponentFlowBuilderService {
                 "title...", "description...", "JAVA;PYTHON;JAVASCRIPT", LocalDate.now().toString(), LocalDate.now().toString(),
                 "create"
         );
+
+        shellHelper.print("\nNew todo created:\n", PromptColor.GREEN);
         return todoService.create(todoFields.title(), todoFields.description(), todoFields.tags(), todoFields.difficulty(), todoFields.priority(), todoFields.progress(), todoFields.startAt(), todoFields.endAt(), false);
     }
 
@@ -84,11 +93,14 @@ public class ComponentFlowBuilderService {
                 "update"
         );
 
+        shellHelper.print("\nTodo with id=%s has been updated:\n", PromptColor.GREEN, idInput);
         return todoService.update(idInput, todoFields.title(), todoFields.description(), todoFields.tags(), todoFields.difficulty(), todoFields.priority(), todoFields.progress(), todoFields.startAt(), todoFields.endAt(), null);
     }
 
     public Todo markCompleteFlow(String id, Boolean uncompleted) {
         var idInput = getIdHelper(id, uncompleted ? "mark-incomplete" : "mark-complete");
+
+        shellHelper.print("\nTodo with id=%s has been updated:\n", PromptColor.GREEN, idInput);
         return todoService.update(idInput, null, null, null, null, null, null, null, null, !uncompleted);
     }
 

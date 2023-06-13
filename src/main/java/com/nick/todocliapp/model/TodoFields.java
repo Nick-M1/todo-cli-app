@@ -1,4 +1,4 @@
-package com.nick.todocliapp.model.helper;
+package com.nick.todocliapp.model;
 
 import com.nick.todocliapp.enums.DifficultyEnum;
 import com.nick.todocliapp.enums.PriorityEnum;

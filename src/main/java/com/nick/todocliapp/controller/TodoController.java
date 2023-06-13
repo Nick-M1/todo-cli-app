@@ -1,6 +1,6 @@
 package com.nick.todocliapp.controller;
 
-import com.nick.todocliapp.builder.TableBuilderCustom;
+import com.nick.todocliapp.helper.TableBuilderCustom;
 import com.nick.todocliapp.service.ComponentFlowBuilderService;
 import com.nick.todocliapp.service.TodoService;
 import jakarta.validation.constraints.Positive;
@@ -104,11 +104,10 @@ public class TodoController extends AbstractShellComponent {
 
 
     @ShellMethod(key = "todo delete", value = "Deletes a todo, by id")
-    public String deleteTodo(
+    public void deleteTodo(
             @ShellOption(value = { "--id", "-i" }, defaultValue = ShellOption.NULL) @Positive String id
     ) {
-        var idInput = componentFlowBuilderService.deleteTodoFlow(id);
-        return String.format("Deleted todo with id=%s", idInput);
+        componentFlowBuilderService.deleteTodoFlow(id);
     }
 
 
