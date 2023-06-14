@@ -73,6 +73,9 @@ public class TodoService {
     }
 
     public void delete(Long id) {
+        if (!todoRepository.existsById(id))
+            throw new ResourceNotFoundCommandException("Todo", "id", id);
+
         todoRepository.deleteById(id);
     }
 
