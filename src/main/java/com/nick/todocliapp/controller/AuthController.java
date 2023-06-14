@@ -1,7 +1,7 @@
 package com.nick.todocliapp.controller;
 
 import com.nick.todocliapp.enums.PromptColor;
-import com.nick.todocliapp.helper.ShellHelper;
+import com.nick.todocliapp.shell.ShellHelper;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
@@ -20,7 +20,7 @@ public class AuthController {
     ) {
         shellHelper.print("\nHELLO!!!!!\n", PromptColor.MAGENTA);
 
-        return shellHelper.getColored(
+        return shellHelper.getColoredMessage(
                 String.format("Welcome %s!", name),
                 PromptColor.BLUE
         );

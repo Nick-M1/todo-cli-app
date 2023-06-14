@@ -1,4 +1,4 @@
-package com.nick.todocliapp.helper;
+package com.nick.todocliapp.shell;
 
 import com.nick.todocliapp.exception.BadRequestCommandException;
 import com.nick.todocliapp.model.TableableModel;

@@ -5,7 +5,7 @@ import com.nick.todocliapp.enums.PriorityEnum;
 import com.nick.todocliapp.enums.ProgressEnum;
 import com.nick.todocliapp.enums.PromptColor;
 import com.nick.todocliapp.exception.BadRequestCommandException;
-import com.nick.todocliapp.helper.ShellHelper;
+import com.nick.todocliapp.shell.ShellHelper;
 import com.nick.todocliapp.model.Todo;
 import com.nick.todocliapp.model.TodoFields;
 import org.apache.logging.log4j.util.Strings;

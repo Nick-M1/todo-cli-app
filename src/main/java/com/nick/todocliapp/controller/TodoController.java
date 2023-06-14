@@ -1,6 +1,6 @@
 package com.nick.todocliapp.controller;
 
-import com.nick.todocliapp.helper.TableBuilderCustom;
+import com.nick.todocliapp.shell.TableBuilderCustom;
 import com.nick.todocliapp.service.ComponentFlowBuilderService;
 import com.nick.todocliapp.service.TodoService;
 import jakarta.validation.constraints.Positive;
